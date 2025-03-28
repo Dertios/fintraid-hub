@@ -26,7 +26,7 @@ const Home = () => {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome to FinTraid Hub</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Your one-stop platform for trading and investing in the Indian stock market
+          
           </p>
           <div className="flex justify-center gap-4 mt-6">
             <Button asChild>
