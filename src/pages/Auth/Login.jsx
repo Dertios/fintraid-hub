@@ -5,6 +5,7 @@ import { Eye, EyeOff, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAuth } from '@/context/AuthContext';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,7 +13,9 @@ const Login = () => {
     email: '',
     password: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
   
   const handleChange = (e) => {
     setFormData({
@@ -21,11 +24,20 @@ const Login = () => {
     });
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate login - in a real app would validate and check credentials
-    console.log('Login attempt with:', formData);
-    navigate('/dashboard');
+    setIsLoading(true);
+    
+    try {
+      const success = login(formData.email, formData.password);
+      if (success) {
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (
@@ -81,10 +93,16 @@ const Login = () => {
                 </button>
               </div>
             </div>
-            <Button type="submit" className="w-full">
-              <LogIn className="h-4 w-4 mr-2" /> Sign In
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              <LogIn className="h-4 w-4 mr-2" /> {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
+          
+          <div className="mt-4 text-sm text-center">
+            <p>Demo credentials:</p>
+            <p className="text-muted-foreground">Email: amit@example.com</p>
+            <p className="text-muted-foreground">Password: password123</p>
+          </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-center text-sm">

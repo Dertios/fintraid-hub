@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useAuth } from '@/context/AuthContext';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +16,9 @@ const Register = () => {
     password: '',
     agreeTerms: false
   });
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { register } = useAuth();
   
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -25,11 +28,20 @@ const Register = () => {
     });
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate registration
-    console.log('Register attempt with:', formData);
-    navigate('/auth/login');
+    setIsLoading(true);
+    
+    try {
+      const success = register(formData.name, formData.email, formData.password);
+      if (success) {
+        navigate('/auth/login');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (
@@ -108,8 +120,8 @@ const Register = () => {
                 <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
               </label>
             </div>
-            <Button type="submit" className="w-full" disabled={!formData.agreeTerms}>
-              <UserPlus className="h-4 w-4 mr-2" /> Sign Up
+            <Button type="submit" className="w-full" disabled={!formData.agreeTerms || isLoading}>
+              <UserPlus className="h-4 w-4 mr-2" /> {isLoading ? 'Creating account...' : 'Sign Up'}
             </Button>
           </form>
         </CardContent>

@@ -1,9 +1,10 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Bell, Menu, X, Sun, Moon, ChevronDown } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Bell, Menu, X, Sun, Moon, ChevronDown, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/use-theme';
+import { useAuth } from '@/context/AuthContext';
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +15,18 @@ import {
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/auth/login');
+  };
+
+  const firstLetter = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
 
   return (
     <nav className="sticky top-0 z-50 bg-background border-b border-border backdrop-blur-sm">
@@ -51,7 +61,7 @@ const Navbar = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-1">
                   <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                    A
+                    {firstLetter}
                   </span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
@@ -60,10 +70,8 @@ const Navbar = () => {
                 <DropdownMenuItem asChild>
                   <Link to="/settings">Settings</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <button className="w-full text-left" onClick={() => console.log('Log out')}>
-                    Log out
-                  </button>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" /> Log out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -97,8 +105,11 @@ const Navbar = () => {
             <MobileNavLink to="/transactions" onClick={closeMenu}>Transactions</MobileNavLink>
             <MobileNavLink to="/settings" onClick={closeMenu}>Settings</MobileNavLink>
             <div className="py-2">
-              <button className="w-full text-left px-3 py-2 text-base font-medium rounded-md text-destructive">
-                Log out
+              <button 
+                className="w-full flex items-center px-3 py-2 text-base font-medium rounded-md text-destructive"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-4 w-4 mr-2" /> Log out
               </button>
             </div>
           </div>
