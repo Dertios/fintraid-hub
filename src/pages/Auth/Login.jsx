@@ -45,8 +45,8 @@ const Login = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <div className="flex justify-center mb-4">
-            <span className="text-primary font-bold text-2xl">FinTraid</span>
-            <span className="text-accent font-bold ml-1 text-2xl">Hub</span>
+            <span className="text-primary font-bold text-2xl">Market</span>
+            <span className="text-accent font-bold ml-1 text-2xl">Flow</span>
           </div>
           <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
           <CardDescription className="text-center">

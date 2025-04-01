@@ -24,7 +24,7 @@ const Home = () => {
     <div className="space-y-8 animate-fade-in">
       <section className="py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome to FinTraid Hub</h1>
+          <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome to MarketFlow</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           
           </p>

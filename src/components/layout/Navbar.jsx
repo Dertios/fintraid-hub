@@ -34,8 +34,8 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center" onClick={closeMenu}>
-              <span className="text-primary font-bold text-xl">FinTraid</span>
-              <span className="text-accent font-bold ml-1">Hub</span>
+              <span className="text-primary font-bold text-xl">Market</span>
+              <span className="text-accent font-bold ml-1">Flow</span>
             </Link>
             
             {/* Desktop Navigation */}
